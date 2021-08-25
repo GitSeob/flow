@@ -1,0 +1,23 @@
+{
+	"development": {
+		"username": "root",
+		"password": "123qwe!@#QWE",
+		"database": "flow_extension_block",
+		"host": "127.0.0.1",
+		"dialect": "mysql"
+	},
+	"test": {
+		"username": "root",
+		"password": null,
+		"database": "flow_extension_block",
+		"host": "127.0.0.1",
+		"dialect": "mysql"
+	},
+	"production": {
+		"username": "root",
+		"password": null,
+		"database": "flow_extension_block",
+		"host": "127.0.0.1",
+		"dialect": "mysql"
+	}
+}
