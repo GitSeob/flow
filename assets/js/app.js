@@ -4,12 +4,20 @@ const app = {
 	},
 	api_request: function(url, is_reload) {
 		fetch(url)
-			.then((res) => {
+			.then(async (res) => {
 				if (is_reload && res.ok) {
 					location.reload();
 				}
-				else if (!res.ok) {
-					location.href = res.status === 404 ? "/404" : "/error";
+				else
+					return {status: res.status, data: await res.json()};
+			})
+			.then((res) => {
+				console.log(res);
+				if (res.status === 500) {
+					location.href = "/error"
+				}
+				else {
+					alert(res.data.message);
 				}
 			})
 	},

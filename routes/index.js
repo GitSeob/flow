@@ -55,21 +55,28 @@ router.get('/add/:extension_name', async (req, res, next) => {
 	const t = await db.sequelize.transaction();
 
 	try {
-		const dupExt = await CustomeExtension.findAll({
+		if (await CustomeExtension.count() > 199) {
+			return res.status(400).send({ message: "확장자를 추가할 수 없습니다. 확장자는 최대 200개까지 추가 가능합니다." });
+		}
+
+		const dupExt = await CustomeExtension.findOne({
 			where: {
 				name
 			}
-		})
-		if (dupExt.length) {
-			next(new Error("extension name is duplicated"));
-		}
-		await CustomeExtension.create({
-			name
-		}, {
-			transaction: t
 		});
-		await t.commit();
-		res.send('add done');
+
+		if (dupExt) {
+			res.status(400).send({ message: "동일한 이름의 확장자가 존재합니다." });
+		}
+		else {
+			await CustomeExtension.create({
+				name
+			}, {
+				transaction: t
+			});
+			await t.commit();
+			res.send('add done');
+		}
 	}
 	catch (err) {
 		await t.rollback();

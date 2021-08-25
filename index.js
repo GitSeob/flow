@@ -48,9 +48,10 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-	res.status(err.status || 500);
-	res.render(__dirname + '/views/error.ejs', {error: err});
+	res.status(500);
+	res.render('error', { error: err });
 });
+
 app.listen(app.get('port'), () => {
 	console.log(`http://localhost:${app.get('port')} is online`);
 });
