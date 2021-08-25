@@ -1,27 +1,7 @@
 <html>
 	<head>
-		<style>
-			@import url('assets/styles/main.css');
-		</style>
-		<script>
-			const app = {
-				init: function() {
-					this.form.init();
-				},
-				form: {
-					init: function() {
-						document.querySelector('.new_extension_button').addEventListener('click', () => { app.form.submit_extension(); })
-					},
-					submit_extension: function() {
-						fetch(`/api/add/${document.querySelector(".new_extension_input").value}`);
-					}
-				}
-			}
-
-			document.addEventListener("DOMContentLoaded", function(){
-				app.init();
-			})
-		</script>
+		<link rel="stylesheet" href="assets/styles/main.css">
+		<script type="text/javascript" src="assets/js/app.js"></script>
 	</head>
 	<body>
 		<div id="main-box">
@@ -35,6 +15,7 @@
 									type="checkbox"
 									value="<%=extension.name %>"
 									id="<%=extension.name %>"
+									onclick="app.form.check_extension(this)"
 									<%= extension.is_ban ? "checked" : "" %>
 								/>
 								<label for="<%=extension.name %>"><%=extension.name %></label>
@@ -47,16 +28,16 @@
 					<td>
 						<form>
 							<input class="new_extension_input" type="text" />
-							<button class="new_extension_button">+ 추가</button>
+							<button class="new_extension_button" type="button">+ 추가</button>
 						</form>
+						<p>
+							<%=data.custom_extension.length%>/200
+						</p>
 						<div>
-							<p>
-								<%=data.custom_extension.length%>/200
-							</p>
 							<% data.custom_extension.forEach((extension, index) => { %>
 								<span class="custom_span">
 									<%=extension.name %>
-									<img src="assets/images/close.svg" data-id="<%=extension.name %>"/>
+									<img src="assets/images/close.svg" data-id="<%=extension.name %>" onclick="app.form.delete_extension(this)"/>
 								</span>
 							<% }) %>
 						</div>

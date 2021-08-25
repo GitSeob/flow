@@ -9,6 +9,11 @@ module.exports = class FixedExtension extends Model {
 				type: DataTypes.STRING(20),
 				allowNull: false,
 				unique: true
+			},
+			is_ban: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: false
 			}
 		}, {
 			modelName: "FixedExtension",
