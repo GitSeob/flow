@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<style>
+			@import url('assets/styles/main.css');
+		</style>
+		<script>
+			const app = {
+				init: function() {
+					this.form.init();
+				},
+				form: {
+					init: function() {
+						document.querySelector('.new_extension_button').addEventListener('click', () => { app.form.submit_extension(); })
+					},
+					submit_extension: function() {
+						fetch(`/api/add/${document.querySelector(".new_extension_input").value}`);
+					}
+				}
+			}
+
+			document.addEventListener("DOMContentLoaded", function(){
+				app.init();
+			})
+		</script>
+	</head>
+	<body>
+		<div id="main-box">
+			<table>
+				<tr>
+					<th>고정 확장자</th>
+					<td>
+						<% data.fixed_extension.forEach((extension, index) => { %>
+							<span>
+								<input
+									type="checkbox"
+									value="<%=extension.name %>"
+									id="<%=extension.name %>"
+									<%= extension.is_ban ? "checked" : "" %>
+								/>
+								<label for="<%=extension.name %>"><%=extension.name %></label>
+							</span>
+						<% }) %>
+					</td>
+				</tr>
+				<tr>
+					<th>커스텀 확장자</th>
+					<td>
+						<form>
+							<input class="new_extension_input" type="text" />
+							<button class="new_extension_button">+ 추가</button>
+						</form>
+						<div>
+							<p>
+								<%=data.custom_extension.length%>/200
+							</p>
+							<% data.custom_extension.forEach((extension, index) => { %>
+								<span class="custom_span">
+									<%=extension.name %>
+									<img src="assets/images/close.svg" data-id="<%=extension.name %>"/>
+								</span>
+							<% }) %>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>

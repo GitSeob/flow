@@ -1,0 +1,15 @@
+{
+  "name": "flow_webserver_subject",
+  "version": "1.0.0",
+  "description": "플로우 웹 서버 개발자 입사 과제",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "gitseob",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1"
+  }
+}

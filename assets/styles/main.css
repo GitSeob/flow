@@ -1,0 +1,62 @@
+
+html {
+	box-sizing: border-box;
+}
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #fafafa;
+}
+input, button {
+	border: none;
+}
+#main-box {
+	padding: 20px;
+	background: #fff;
+	border: 1px solid #dadada;
+}
+tr {
+	padding-bottom: 20px;
+}
+th {
+	text-align: right;
+	vertical-align: top;
+	min-width: 100px;
+}
+td {
+	padding-left: 20px;
+}
+td > span {
+	margin-right: 10px;
+}
+.new_extension_input {
+	padding: 3px 6px;
+	border-radius: 3px;
+	line-height: 1.2;
+	border: 1px solid #555;
+}
+.new_extension_button {
+	background: rgb(194, 192, 192);
+	border: 1px solid #555;
+	border-radius: 5px;
+	color: #fff;
+}
+.custom_span {
+	display: inline-block;
+	line-height: 1.8;
+	height: 18px;
+	padding: 2px 4px;
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	font-size: 12px;
+
+}
+.custom_span > img {
+	height: 100%;
+	cursor: pointer;
+	vertical-align: top;
+}
+div, tr {
+	display: block;
+}
