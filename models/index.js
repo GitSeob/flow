@@ -21,22 +21,22 @@ Object.keys(db).forEach(async (modelName) => {
 });
 
 const init = async () => {
-	const fixedExts = ['bat', 'cmd','com','cpl', 'exe', 'scr', 'js'];
+	const fixed_exts = ['bat', 'cmd','com','cpl', 'exe', 'scr', 'js'];
 
 	while(!db.FixedExtension.sync() && !db.FixedExtension.sync()) {
-		setTimeout(
-			() => {console.log('wait for create table...')}
-			, 200);
+		setTimeout(() => {
+			console.log('wait for create table...')
+		}, 200);
 	}
 
 	const fixedExtsInDB = await fixedExtension.findAll();
 
 	if (!fixedExtsInDB.length) {
-		console.log('create datas');
+		console.log('create rows');
 		const t = await db.sequelize.transaction();
 
 		await fixedExtension.bulkCreate(
-			fixedExts.map((ext) => ({ is_ban: false, name: ext })),
+			fixed_exts.map((ext) => ({ is_ban: false, name: ext })),
 			{ transaction: t }
 		);
 		await t.commit();
