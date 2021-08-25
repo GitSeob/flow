@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const router = require('./routes');
 const { sequelize } = require("./models");
+const db = require('./models');
 
 const app = express();
 
@@ -16,16 +17,32 @@ sequelize.sync()
 		process.exit();
 	});
 
+db.init();
+
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
-	res.render(__dirname + '/views/main.ejs', {data: dummy});
+app.get('/', async (req, res) => {
+	const data = {};
+
+	data.fixed_extension = await db.FixedExtension.findAll();
+	data.custom_extension = await db.CustomeExtension.findAll();
+
+	res.render(__dirname + '/views/main.ejs', { data });
 })
 
 app.use('/assets', express.static(path.join(__dirname, "assets")));
 
 app.use('/api', router);
+
+app.use((req, res, next) => {
+	res.send({status: 404, message: 'URL을 확인해주십시오.'});
+});
+
+app.use((err, req, res, next) => {
+	res.status(err.status || 500);
+	res.render(__dirname + '/views/error.ejs', {error: err});
+});
 
 app.listen(app.get('port'), () => {
 	console.log(`http://localhost:${app.get('port')} is online`);

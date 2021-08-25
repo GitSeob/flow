@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<style>
+			body {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: #fafafa;
+			}
+
+			div {
+				background: #fff;
+				padding: 20px;
+				text-align: center;
+			}
+			button {
+				width: 100%;
+				padding: 5px;
+				text-align: center;
+				border: 1px solid #bc80f5;
+				background: #af6af0;
+				color: #fff;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+		</style>
+		<script>
+			function toMain() {
+				location.href = "/";
+			}
+		</script>
+	</head>
+	<body>
+		<div>
+			<h1>에러가 발생했습니다.</h1>
+			<p><%=error.message%></p>
+			<button type="button" onclick="toMain()">메인 페이지로 이동하기</button>
+		</div>
+	</body>
+</html>

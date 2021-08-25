@@ -8,6 +8,7 @@ const app = {
 				location.reload();
 			}
 		}).catch((err) => {
+			console.log(err);
 			console.error(err);
 		})
 	},
@@ -17,7 +18,10 @@ const app = {
 		},
 		submit_extension: function() {
 			const ext_name = document.querySelector(".new_extension_input").value;
-			if (ext_name.length > 20) {
+			if (ext_name.length === 0) {
+				alert('확장자 명을 입력해주세요.');
+			}
+			else if (ext_name.length > 20) {
 				alert('확장자 명은 최대 20자리입니다.');
 			}
 			else {

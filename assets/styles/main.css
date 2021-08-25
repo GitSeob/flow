@@ -11,6 +11,9 @@ body {
 input, button {
 	border: none;
 }
+button {
+	cursor: pointer;
+}
 #main-box {
 	padding: 20px;
 	background: #fff;

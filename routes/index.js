@@ -46,18 +46,25 @@ const updateCheck = (name, check, t) => {
 }
 
 router.get('/add/:extension_name', async (req, res, next) => {
+	const name = req.params.extension_name;
+
+	if (name.length === 0 || name.length > 20) {
+		next(new Error('확장자 명 길이가 적절하지 않습니다. (1~20자)'));
+	}
+
 	const t = await db.sequelize.transaction();
+
 	try {
 		const dupExt = await CustomeExtension.findAll({
 			where: {
-				name: req.params.extension_name
+				name
 			}
 		})
 		if (dupExt.length) {
 			next(new Error("extension name is duplicated"));
 		}
 		await CustomeExtension.create({
-			name: req.params.extension_name
+			name
 		}, {
 			transaction: t
 		});
