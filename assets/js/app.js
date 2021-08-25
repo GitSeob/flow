@@ -3,14 +3,15 @@ const app = {
 		this.form.init();
 	},
 	api_request: function(url, is_reload) {
-		fetch(url).then((res) => {
-			if (is_reload && res.ok) {
-				location.reload();
-			}
-		}).catch((err) => {
-			console.log(err);
-			console.error(err);
-		})
+		fetch(url)
+			.then((res) => {
+				if (is_reload && res.ok) {
+					location.reload();
+				}
+				else if (!res.ok) {
+					location.href = res.status === 404 ? "/404" : "/error";
+				}
+			})
 	},
 	form: {
 		init: function() {

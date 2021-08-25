@@ -93,7 +93,7 @@ router.get('/delete/:extension_name', async (req, res, next) => {
 	}
 	catch (err) {
 		await t.rollback();
-		next(err);
+		res.status(404).send('찾을 수 없는 확장자입니다.');
 	}
 })
 
