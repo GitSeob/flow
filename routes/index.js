@@ -4,7 +4,7 @@ const router = express.Router();
 
 const { FixedExtension, CustomeExtension } = db;
 
-const findExt = (name, type="fixed") => {
+const find_ext = (name, type="fixed") => {
 	return new Promise(async (resolve, reject) => {
 		let ext;
 		if (type === "fixed") {
@@ -26,7 +26,7 @@ const findExt = (name, type="fixed") => {
 	})
 }
 
-const updateCheck = (name, check, t) => {
+const update_check = (name, check, t) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			await FixedExtension.update({
@@ -45,6 +45,19 @@ const updateCheck = (name, check, t) => {
 	})
 }
 
+const is_dup_check = (name) => {
+	return new Promise( async (resolve, reject) => {
+		const fixedDup = await FixedExtension.findOne({ where: { name }});
+		const customDup = await CustomeExtension.findOne({ where: { name }});
+
+		if (fixedDup || customDup) {
+			resolve(true);
+		} else {
+			resolve(false);
+		}
+	})
+}
+
 router.get('/add/:extension_name', async (req, res, next) => {
 	const name = req.params.extension_name;
 
@@ -59,13 +72,9 @@ router.get('/add/:extension_name', async (req, res, next) => {
 			return res.status(400).send({ message: "확장자를 추가할 수 없습니다. 확장자는 최대 200개까지 추가 가능합니다." });
 		}
 
-		const dupExt = await CustomeExtension.findOne({
-			where: {
-				name
-			}
-		});
+		const is_duplicated = await is_dup_check(name);
 
-		if (dupExt) {
+		if (is_duplicated) {
 			res.status(400).send({ message: "동일한 이름의 확장자가 존재합니다." });
 		}
 		else {
@@ -87,7 +96,7 @@ router.get('/add/:extension_name', async (req, res, next) => {
 router.get('/delete/:extension_name', async (req, res, next) => {
 	const t = await db.sequelize.transaction();
 	try {
-		await findExt(req.params.extension_name, 'custom');
+		await find_ext(req.params.extension_name, 'custom');
 		await CustomeExtension.destroy({
 			where: {
 				name: req.params.extension_name
@@ -108,7 +117,7 @@ router.get('/check/:extension_name', async (req, res, next) => {
 	const t = await db.sequelize.transaction();
 	try {
 		await findExt(req.params.extension_name, 'fixed');
-		await updateCheck(req.params.extension_name, true, t);
+		await update_check(req.params.extension_name, true, t);
 		await t.commit();
 		res.send('check done');
 	}
@@ -122,7 +131,7 @@ router.get('/uncheck/:extension_name', async (req, res, next) => {
 	const t = await db.sequelize.transaction();
 	try {
 		await findExt(req.params.extension_name, 'fixed');
-		await updateCheck(req.params.extension_name, false, t);
+		await update_check(req.params.extension_name, false, t);
 		await t.commit();
 		res.send('check done');
 	}

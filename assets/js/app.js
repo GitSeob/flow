@@ -12,7 +12,6 @@ const app = {
 					return {status: res.status, data: await res.json()};
 			})
 			.then((res) => {
-				console.log(res);
 				if (res.status === 500) {
 					location.href = "/error"
 				}
